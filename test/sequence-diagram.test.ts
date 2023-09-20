@@ -144,5 +144,31 @@ describe("Sequence Diagram", () => {
       expect(render).toContain("Bob-)Alice: Hi");
       expect(render).toContain("Alice--)Bob: Hello");
     });
+
+    test("should render all messages with activate", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello", { activate: true });
+      diagram.message("Bob", "->", "Alice", "Hi", { activate: true });
+      const render = diagram.render();
+      expect(render).toContain("+A");
+      expect(render).toContain("+B");
+    });
+
+    test("should render all messages with deactivate", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello", { deactivate: true });
+      diagram.message("Bob", "->", "Alice", "Hi", { deactivate: true });
+      const render = diagram.render();
+      expect(render).toContain("-A");
+      expect(render).toContain("-B");
+    });
+
+    test("should throw an error on messages with activate and deactivate", () => {
+      const diagram = new SequenceDiagram();
+
+      expect(() => {
+        diagram.message("Alice", "->", "Bob", "Hello", { activate: true, deactivate: true });
+      }).toThrow(new Error("Cannot activate and deactivate a message"));
+    });
   });
 });

@@ -11,7 +11,11 @@ export interface SequenceParticipant extends ParticipantOptions {
 }
 
 export type SequenceMessageArrow = "->" | "-->" | "-->>" | "->>" | "-x" | "--x" | "-)" | "--)";
-export interface SequenceMessage {
+export interface SequenceMessageOptions {
+  activate?: boolean;
+  deactivate?: boolean;
+}
+export interface SequenceMessage extends SequenceMessageOptions {
   type: "message";
   from: string;
   to: string;
@@ -60,8 +64,9 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param arrow The arrow type
    * @param to The name of the receiver
    * @param text The message
+   * @param options (optional) The options of the message
    */
-  message(from: string, arrow: SequenceMessageArrow, to: string, text: string): void;
+  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): void;
 
   /**
    * Render a message

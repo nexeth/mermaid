@@ -7,6 +7,7 @@ import {
   SequenceItemKey,
   SequenceMessage,
   SequenceMessageArrow,
+  SequenceMessageOptions,
   SequenceParticipant,
 } from "@/types";
 
@@ -46,13 +47,18 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${createString}${type} ${name}${aliasString}`;
   }
 
-  message(from: string, arrow: SequenceMessageArrow, to: string, text: string): void {
-    this.sequence.push({ type: "message", from, arrow, to, text });
+  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): void {
+    if (options?.activate && options?.deactivate) {
+      throw new Error("Cannot activate and deactivate a message");
+    }
+    this.sequence.push({ type: "message", from, arrow, to, text, ...options });
   }
 
   renderMessage(message: SequenceMessage): string {
-    const { from, arrow, to, text } = message;
-    return `${from}${arrow}${to}: ${text}`;
+    const { from, arrow, to, text, activate, deactivate } = message;
+    const activateString = activate ? "+" : "";
+    const deactivateString = deactivate ? "-" : "";
+    return `${activateString}${from}${arrow}${activateString}${deactivateString}${to}: ${text}`;
   }
 
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
