@@ -92,7 +92,7 @@ describe("Sequence Diagram", () => {
 
   describe("title", () => {
     test("should render title", () => {
-      const diagram = new SequenceDiagram("Title");
+      const diagram = new SequenceDiagram({ title: "Title" });
       expect(diagram.render()).toContain("Title");
     });
 
@@ -361,6 +361,41 @@ describe("Sequence Diagram", () => {
       const render = diagram.render();
       expect(render).toContain("%% Hello");
       expect(render).toContain("%% Hi");
+    });
+  });
+
+  describe("autonumber", () => {
+    test("should render autonumber", () => {
+      const diagram = new SequenceDiagram({ autonumber: true });
+      diagram.message("Alice", "->", "Bob", "Hello");
+      diagram.message("Bob", "->", "Alice", "Hi");
+      const render = diagram.render();
+      expect(render).toContain("autonumber");
+    });
+  });
+
+  describe("custom", () => {
+    test("should add a custom", () => {
+      const diagram = new SequenceDiagram();
+      diagram.custom("Hello");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+    });
+
+    test("should add multiple customs", () => {
+      const diagram = new SequenceDiagram();
+      diagram.custom("Hello");
+      diagram.custom("Hi");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ text: "Hi" });
+    });
+
+    test("should render all customs", () => {
+      const diagram = new SequenceDiagram();
+      diagram.custom("Hello");
+      diagram.custom("Hi");
+      const render = diagram.render();
+      expect(render).toContain("Hello");
+      expect(render).toContain("Hi");
     });
   });
 

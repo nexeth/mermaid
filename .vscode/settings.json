@@ -11,5 +11,5 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "thunder-client.saveToWorkspace": true,
   "thunder-client.workspaceRelativePath": ".vscode",
-  "cSpell.words": [ "NEXETH"]
+  "cSpell.words": ["autonumber", "NEXETH"]
 }

@@ -6,6 +6,8 @@ import {
   SequenceBox,
   SequenceBoxOptions,
   SequenceComment,
+  SequenceCustom,
+  SequenceDiagramConstructor,
   SequenceDiagramInterface,
   SequenceItem,
   SequenceItemKey,
@@ -21,12 +23,18 @@ import {
 } from "@/types";
 
 export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramInterface {
-  constructor(title?: string) {
+  constructor(opt?: SequenceDiagramConstructor) {
     super();
-    this.title = title;
+    this.title = opt?.title;
+    this.autonumber = opt?.autonumber ?? false;
+    this.styles = opt?.styles;
   }
 
   title?: string;
+
+  autonumber: boolean = false;
+
+  styles?: string;
 
   sequence: SequenceItem[] = [];
 
@@ -176,6 +184,14 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `%% ${text}`;
   }
 
+  custom(text: string): void {
+    this.sequence.push({ type: "custom", text });
+  }
+
+  renderCustom({ text }: SequenceCustom): string {
+    return text;
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -195,6 +211,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     break: (item) => this.renderRegion(item as SequenceRegionItem),
     rect: (item) => this.renderRect(item as SequenceRect),
     comment: (item) => this.renderComment(item as SequenceComment),
+    custom: (item) => this.renderCustom(item as SequenceCustom),
   };
 
   render() {
@@ -203,6 +220,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `
 sequenceDiagram
 \t${this.renderTitle()}
+\t${this.autonumber ? "autonumber" : ""}
 \t${renderedSequence.join("\n\t")}`;
   }
 

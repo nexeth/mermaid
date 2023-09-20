@@ -64,6 +64,11 @@ export interface SequenceComment {
   text: string;
 }
 
+export interface SequenceCustom {
+  type: "custom";
+  text: string;
+}
+
 export type SequenceItemKey =
   | "participant"
   | "actor"
@@ -75,6 +80,7 @@ export type SequenceItemKey =
   | "note"
   | "rect"
   | "comment"
+  | "custom"
   | SequenceRegion;
 export type SequenceItem =
   | SequenceParticipant
@@ -85,13 +91,39 @@ export type SequenceItem =
   | SequenceNote
   | SequenceRegionItem
   | SequenceRect
-  | SequenceComment;
+  | SequenceComment
+  | SequenceCustom;
+
+export interface SequenceDiagramConstructor {
+  /**
+   * The title of the diagram
+   */
+  title?: string;
+  /**
+   * Use autonumbering for the diagram
+   */
+  autonumber?: boolean;
+  /**
+   * Custom styles
+   */
+  styles?: string;
+}
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
    * The current sequence diagram sequence
    */
   sequence: SequenceItem[];
+
+  /**
+   * Whether to use autonumbering for the diagram
+   */
+  autonumber?: boolean;
+
+  /**
+   * Custom styles to apply to elements in the diagram
+   */
+  styles?: string;
 
   /**
    * Add a participant to the diagram
@@ -285,6 +317,18 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param comment The comment to render
    */
   renderComment(comment: SequenceComment): string;
+
+  /**
+   * Add a custom statement to the diagram
+   * @param text The text of the custom statement
+   */
+  custom(text: string): void;
+
+  /**
+   * Render a custom statement
+   * @param custom The custom statement to render
+   */
+  renderCustom(custom: SequenceCustom): string;
 
   /**
    * Defines the render methods that are used for each item in the sequence diagram
