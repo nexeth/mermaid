@@ -292,6 +292,42 @@ describe("Sequence Diagram", () => {
     });
   });
 
+  describe("region", () => {
+    test("should add a region", () => {
+      const diagram = new SequenceDiagram();
+      diagram.region("loop", "Hello");
+      expect(diagram.sequence[0]).toMatchObject({ type: "loop", text: "Hello" });
+    });
+
+    test("should add multiple regions", () => {
+      const diagram = new SequenceDiagram();
+      diagram.region("loop", "Hello");
+      diagram.region("alt", "Hi");
+      expect(diagram.sequence[0]).toMatchObject({ type: "loop", text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ type: "alt", text: "Hi" });
+    });
+
+    test("should render all regions", () => {
+      const diagram = new SequenceDiagram();
+      diagram.loop("Hello");
+      diagram.alt("Hi");
+      diagram.else("Hey");
+      diagram.opt("Hoy");
+      diagram.par("Huy");
+      diagram.critical("Hoy");
+      diagram.and("Huy");
+
+      const render = diagram.render();
+      expect(render).toContain("loop Hello");
+      expect(render).toContain("alt Hi");
+      expect(render).toContain("else Hey");
+      expect(render).toContain("opt Hoy");
+      expect(render).toContain("par Huy");
+      expect(render).toContain("critical Hoy");
+      expect(render).toContain("and Huy");
+    });
+  });
+
   describe("demo case", () => {
     test("should render demo case", () => {
       const diagram = new SequenceDiagram();

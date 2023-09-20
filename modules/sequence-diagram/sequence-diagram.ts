@@ -14,6 +14,8 @@ import {
   SequenceNote,
   SequenceNoteLocation,
   SequenceParticipant,
+  SequenceRegion,
+  SequenceRegionItem,
 } from "@/types";
 
 export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramInterface {
@@ -113,6 +115,43 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `Note ${location} ${participants.join(",")}: ${text}`;
   }
 
+  region(variant: SequenceRegion, text: string): void {
+    this.sequence.push({ type: variant, text });
+  }
+
+  renderRegion(region: SequenceRegionItem): string {
+    const { type, text } = region;
+    return `${type} ${text}`;
+  }
+
+  loop(text: string): void {
+    this.region("loop", text);
+  }
+
+  alt(text: string): void {
+    this.region("alt", text);
+  }
+
+  else(text: string): void {
+    this.region("else", text);
+  }
+
+  opt(text: string): void {
+    this.region("opt", text);
+  }
+
+  par(text: string): void {
+    this.region("par", text);
+  }
+
+  critical(text: string): void {
+    this.region("critical", text);
+  }
+
+  and(text: string): void {
+    this.region("and", text);
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -122,6 +161,13 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     activate: (item) => this.renderActivation(item as SequenceActivation),
     deactivate: (item) => this.renderActivation(item as SequenceActivation),
     note: (item) => this.renderNote(item as SequenceNote),
+    loop: (item) => this.renderRegion(item as SequenceRegionItem),
+    alt: (item) => this.renderRegion(item as SequenceRegionItem),
+    else: (item) => this.renderRegion(item as SequenceRegionItem),
+    opt: (item) => this.renderRegion(item as SequenceRegionItem),
+    par: (item) => this.renderRegion(item as SequenceRegionItem),
+    critical: (item) => this.renderRegion(item as SequenceRegionItem),
+    and: (item) => this.renderRegion(item as SequenceRegionItem),
   };
 
   render() {

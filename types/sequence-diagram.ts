@@ -48,14 +48,30 @@ export interface SequenceNote {
   participants: string[];
 }
 
-export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end" | "activate" | "deactivate" | "note";
+export type SequenceRegion = "loop" | "alt" | "else" | "opt" | "par" | "critical" | "and";
+export interface SequenceRegionItem {
+  type: SequenceRegion;
+  text: string;
+}
+
+export type SequenceItemKey =
+  | "participant"
+  | "actor"
+  | "message"
+  | "box"
+  | "end"
+  | "activate"
+  | "deactivate"
+  | "note"
+  | SequenceRegion;
 export type SequenceItem =
   | SequenceParticipant
   | SequenceMessage
   | SequenceBox
   | SequenceEnd
   | SequenceActivation
-  | SequenceNote;
+  | SequenceNote
+  | SequenceRegionItem;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -167,8 +183,64 @@ export interface SequenceDiagramInterface extends Mermaid {
 
   /**
    * Render a note
+   * @param note The note to render
    */
   renderNote(note: SequenceNote): string;
+
+  /**
+   * Add a region statement.
+   * @param variant The variant of the region. This is used as the basis for loop, alt, else, opt, par and critical.
+   * @param text The text of the region
+   */
+  region(variant: SequenceRegion, text: string): void;
+
+  /**
+   * Render a region statement
+   * @param region The region to render
+   */
+  renderRegion(region: SequenceRegionItem): string;
+
+  /**
+   * Begin a loop region
+   * @param text The text of the loop
+   */
+  loop(text: string): void;
+
+  /**
+   * Begin an alt region
+   * @param text The text of the alt
+   */
+  alt(text: string): void;
+
+  /**
+   * Begin an else region
+   * @param text The text of the else
+   */
+  else(text: string): void;
+
+  /**
+   * Begin an opt region
+   * @param text The text of the opt
+   */
+  opt(text: string): void;
+
+  /**
+   * Begin a par region
+   * @param text The text of the par
+   */
+  par(text: string): void;
+
+  /**
+   * Begin a critical region
+   * @param text The text of the critical
+   */
+  critical(text: string): void;
+
+  /**
+   * Begin an and region
+   * @param text The text of the and
+   */
+  and(text: string): void;
 
   /**
    * Defines the render methods that are used for each item in the sequence diagram
