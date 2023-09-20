@@ -126,24 +126,24 @@ export interface SequenceDiagramInterface extends Mermaid {
   styles?: string;
 
   /**
-   * Add a participant to the diagram
-   * @param name The name of the participant
-   * @param options (optional) The options of the participant
-   */
-  addParticipant(name: string, options?: ParticipantOptions): void;
-
-  /**
    * Add a participant to the diagram (shorthand)
    * @param name The name of the participant
    * @param options (optional) The options of the participant
    */
-  participant(name: string, options?: ParticipantOptions): void;
+  participant(name: string, options?: ParticipantOptions): this;
+
+  /**
+   * Add an actor to the diagram (shorthand)
+   * @param name The name of the actor
+   * @param options (optional) The options of the actor
+   */
+  actor(name: string, options?: ParticipantOptions): this;
 
   /**
    * Destroy a participant
    * @param name The name of the participant
    */
-  destroyParticipant(name: string): void;
+  destroyParticipant(name: string): this;
 
   /**
    * Render a participant
@@ -159,7 +159,7 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param text The message
    * @param options (optional) The options of the message
    */
-  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): void;
+  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): this;
 
   /**
    * Render a message
@@ -173,7 +173,7 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param text The text of the box
    * @param options (optional) The options of the box
    */
-  box(text: string, options?: SequenceBoxOptions): void;
+  box(text: string, options?: SequenceBoxOptions): this;
 
   /**
    * Render a box
@@ -184,19 +184,19 @@ export interface SequenceDiagramInterface extends Mermaid {
   /**
    * End the currently open box
    */
-  end(): void;
+  end(): this;
 
   /**
    * Add an activation to the diagram
    * @param participant The participant to activate
    */
-  activate(participant: string): void;
+  activate(participant: string): this;
 
   /**
    * Add a deactivation to the diagram
    * @param participant The participant to deactivate
    */
-  deactivate(participant: string): void;
+  deactivate(participant: string): this;
 
   /**
    * Add a note to the diagram
@@ -204,28 +204,28 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param participants The participants of the note
    * @param text The text of the note
    */
-  note(location: SequenceNoteLocation, participants: string[], text: string): void;
+  note(location: SequenceNoteLocation, participants: string[], text: string): this;
 
   /**
    * Add a note over to the diagram
    * @param participants The participants of the note
    * @param text The text of the note
    */
-  noteOver(participants: string[], text: string): void;
+  noteOver(participants: string[], text: string): this;
 
   /**
    * Add a note left of to the diagram
    * @param participants The participants of the note
    * @param text The text of the note
    */
-  noteLeftOf(participants: string[], text: string): void;
+  noteLeftOf(participants: string[], text: string): this;
 
   /**
    * Add a note right of to the diagram
    * @param participants The participants of the note
    * @param text The text of the note
    */
-  noteRightOf(participants: string[], text: string): void;
+  noteRightOf(participants: string[], text: string): this;
 
   /**
    * Render a note
@@ -238,7 +238,7 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param variant The variant of the region. This is used as the basis for loop, alt, else, opt, par and critical.
    * @param text The text of the region
    */
-  region(variant: SequenceRegion, text: string): void;
+  region(variant: SequenceRegion, text: string): this;
 
   /**
    * Render a region statement
@@ -250,55 +250,55 @@ export interface SequenceDiagramInterface extends Mermaid {
    * Begin a loop region
    * @param text The text of the loop
    */
-  loop(text: string): void;
+  loop(text: string): this;
 
   /**
    * Begin an alt region
    * @param text The text of the alt
    */
-  alt(text: string): void;
+  alt(text: string): this;
 
   /**
    * Begin an else region
    * @param text The text of the else
    */
-  else(text: string): void;
+  else(text: string): this;
 
   /**
    * Begin an opt region
    * @param text The text of the opt
    */
-  opt(text: string): void;
+  opt(text: string): this;
 
   /**
    * Begin a par region
    * @param text The text of the par
    */
-  par(text: string): void;
+  par(text: string): this;
 
   /**
    * Begin a critical region
    * @param text The text of the critical
    */
-  critical(text: string): void;
+  critical(text: string): this;
 
   /**
    * Begin an and region
    * @param text The text of the and
    */
-  and(text: string): void;
+  and(text: string): this;
 
   /**
    * Begin a break region
    * @param text The text of the break
    */
-  break(text: string): void;
+  break(text: string): this;
 
   /**
    * Begin a rect region
    * @param color The color of the rect
    */
-  rect(color: string): void;
+  rect(color: string): this;
 
   /**
    * Render a rect region
@@ -310,7 +310,7 @@ export interface SequenceDiagramInterface extends Mermaid {
    * Add a comment to the diagram
    * @param text The text of the comment
    */
-  comment(text: string): void;
+  comment(text: string): this;
 
   /**
    * Render a comment
@@ -322,7 +322,7 @@ export interface SequenceDiagramInterface extends Mermaid {
    * Add a custom statement to the diagram
    * @param text The text of the custom statement
    */
-  custom(text: string): void;
+  custom(text: string): this;
 
   /**
    * Render a custom statement

@@ -6,14 +6,14 @@ describe("Sequence Diagram", () => {
   describe("participant", () => {
     test("should add a participant", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
+      diagram.participant("Alice");
       expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
     });
 
     test("should add multiple participants", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
       expect(diagram.sequence[1]).toMatchObject({ name: "Bob" });
     });
@@ -28,8 +28,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       const render = diagram.render();
       expect(render).toContain("participant Alice");
       expect(render).toContain("participant Bob");
@@ -37,8 +37,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with alias", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { type: "participant", alias: "A" });
-      diagram.addParticipant("Bob", { type: "participant", alias: "B" });
+      diagram.participant("Alice", { type: "participant", alias: "A" });
+      diagram.participant("Bob", { type: "participant", alias: "B" });
       const render = diagram.render();
       expect(render).toContain("participant Alice as A");
       expect(render).toContain("participant Bob as B");
@@ -46,8 +46,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with actor", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { type: "actor" });
-      diagram.addParticipant("Bob", { type: "actor" });
+      diagram.participant("Alice", { type: "actor" });
+      diagram.participant("Bob", { type: "actor" });
       const render = diagram.render();
       expect(render).toContain("actor Alice");
       expect(render).toContain("actor Bob");
@@ -55,8 +55,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with alias and actor", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { alias: "A", type: "actor" });
-      diagram.addParticipant("Bob", { alias: "B", type: "actor" });
+      diagram.participant("Alice", { alias: "A", type: "actor" });
+      diagram.participant("Bob", { alias: "B", type: "actor" });
       const render = diagram.render();
       expect(render).toContain("actor Alice as A");
       expect(render).toContain("actor Bob as B");
@@ -64,8 +64,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with create", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { type: "participant", create: true });
-      diagram.addParticipant("Bob", { type: "participant", create: true });
+      diagram.participant("Alice", { type: "participant", create: true });
+      diagram.participant("Bob", { type: "participant", create: true });
       const render = diagram.render();
       expect(render).toContain("create participant Alice");
       expect(render).toContain("create participant Bob");
@@ -73,8 +73,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with alias and create", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { alias: "A", type: "participant", create: true });
-      diagram.addParticipant("Bob", { alias: "B", type: "participant", create: true });
+      diagram.participant("Alice", { alias: "A", type: "participant", create: true });
+      diagram.participant("Bob", { alias: "B", type: "participant", create: true });
       const render = diagram.render();
       expect(render).toContain("create participant Alice as A");
       expect(render).toContain("create participant Bob as B");
@@ -87,6 +87,12 @@ describe("Sequence Diagram", () => {
       const render = diagram.render();
       expect(render).toContain("destroy Alice");
       expect(render).toContain("destroy Bob");
+    });
+
+    test("should add an actor", () => {
+      const diagram = new SequenceDiagram();
+      diagram.actor("Alice");
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice", type: "actor" });
     });
   });
 
@@ -199,7 +205,7 @@ describe("Sequence Diagram", () => {
   describe("activate", () => {
     test("should activate a participant", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
+      diagram.participant("Alice");
       diagram.activate("Alice");
       const render = diagram.render();
       expect(render).toContain("activate Alice");
@@ -209,7 +215,7 @@ describe("Sequence Diagram", () => {
   describe("deactivate", () => {
     test("should deactivate a participant", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
+      diagram.participant("Alice");
       diagram.activate("Alice");
       diagram.deactivate("Alice");
       const render = diagram.render();
@@ -221,8 +227,8 @@ describe("Sequence Diagram", () => {
   describe("note", () => {
     test("should add a note", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.note("right of", ["Alice", "Bob"], "Hello");
       expect(diagram.sequence[2]).toMatchObject({
         location: "right of",
@@ -233,8 +239,8 @@ describe("Sequence Diagram", () => {
 
     test("should add multiple notes", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.note("right of", ["Alice", "Bob"], "Hello");
       diagram.noteOver(["Alice", "Bob"], "Hi");
       expect(diagram.sequence[2]).toMatchObject({
@@ -247,8 +253,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all notes", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.note("right of", ["Alice", "Bob"], "Hello");
       diagram.noteOver(["Alice", "Bob"], "Hi");
       const render = diagram.render();
@@ -258,24 +264,24 @@ describe("Sequence Diagram", () => {
 
     test("should add a note over", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.noteOver(["Alice", "Bob"], "Hello");
       expect(diagram.sequence[2]).toMatchObject({ location: "over", participants: ["Alice", "Bob"], text: "Hello" });
     });
 
     test("should add a note left of", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.noteLeftOf(["Alice", "Bob"], "Hello");
       expect(diagram.sequence[2]).toMatchObject({ location: "left of", participants: ["Alice", "Bob"], text: "Hello" });
     });
 
     test("should add a note right of", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      diagram.addParticipant("Bob");
+      diagram.participant("Alice");
+      diagram.participant("Bob");
       diagram.noteRightOf(["Alice", "Bob"], "Hello");
       expect(diagram.sequence[2]).toMatchObject({
         location: "right of",
@@ -286,7 +292,7 @@ describe("Sequence Diagram", () => {
 
     test("should add a note for a single participant", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
+      diagram.participant("Alice");
       diagram.noteRightOf(["Alice"], "Hello");
       expect(diagram.sequence[1]).toMatchObject({ location: "right of", participants: ["Alice"], text: "Hello" });
     });
@@ -396,6 +402,74 @@ describe("Sequence Diagram", () => {
       const render = diagram.render();
       expect(render).toContain("Hello");
       expect(render).toContain("Hi");
+    });
+  });
+
+  describe("chaining", () => {
+    test("should chain participants", () => {
+      const diagram = new SequenceDiagram();
+      diagram.participant("Alice").participant("Bob");
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.sequence[1]).toMatchObject({ name: "Bob" });
+    });
+
+    test("should chain messages", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello").message("Bob", "->", "Alice", "Hi");
+      expect(diagram.sequence[0]).toMatchObject({ from: "Alice", arrow: "->", to: "Bob", text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ from: "Bob", arrow: "->", to: "Alice", text: "Hi" });
+    });
+
+    test("should chain a large diagram", () => {
+      const diagram = new SequenceDiagram();
+      diagram
+        .participant("Alice")
+        .participant("Bob")
+        .participant("John")
+        .participant("Jane")
+        .participant("Joe")
+        .participant("Jack")
+        .participant("Jill")
+        .participant("Jenny")
+        .participant("Jade")
+        .message("Alice", "->", "Bob", "Hello")
+        .message("Bob", "->", "Alice", "Hi")
+        .message("Alice", "->", "John", "Hello")
+        .message("John", "->", "Alice", "Hi")
+        .message("Alice", "->", "Jane", "Hello")
+        .message("Jane", "->", "Alice", "Hi")
+        .message("Alice", "->", "Joe", "Hello")
+        .message("Joe", "->", "Alice", "Hi")
+        .message("Alice", "->", "Jack", "Hello")
+        .message("Jack", "->", "Alice", "Hi")
+        .message("Alice", "->", "Jill", "Hello")
+        .message("Jill", "->", "Alice", "Hi")
+        .message("Alice", "->", "Jenny", "Hello")
+        .message("Jenny", "->", "Alice", "Hi");
+
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.sequence[1]).toMatchObject({ name: "Bob" });
+      expect(diagram.sequence[2]).toMatchObject({ name: "John" });
+      expect(diagram.sequence[3]).toMatchObject({ name: "Jane" });
+      expect(diagram.sequence[4]).toMatchObject({ name: "Joe" });
+      expect(diagram.sequence[5]).toMatchObject({ name: "Jack" });
+      expect(diagram.sequence[6]).toMatchObject({ name: "Jill" });
+      expect(diagram.sequence[7]).toMatchObject({ name: "Jenny" });
+      expect(diagram.sequence[8]).toMatchObject({ name: "Jade" });
+      expect(diagram.sequence[9]).toMatchObject({ from: "Alice", arrow: "->", to: "Bob", text: "Hello" });
+      expect(diagram.sequence[10]).toMatchObject({ from: "Bob", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[11]).toMatchObject({ from: "Alice", arrow: "->", to: "John", text: "Hello" });
+      expect(diagram.sequence[12]).toMatchObject({ from: "John", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[13]).toMatchObject({ from: "Alice", arrow: "->", to: "Jane", text: "Hello" });
+      expect(diagram.sequence[14]).toMatchObject({ from: "Jane", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[15]).toMatchObject({ from: "Alice", arrow: "->", to: "Joe", text: "Hello" });
+      expect(diagram.sequence[16]).toMatchObject({ from: "Joe", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[17]).toMatchObject({ from: "Alice", arrow: "->", to: "Jack", text: "Hello" });
+      expect(diagram.sequence[18]).toMatchObject({ from: "Jack", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[19]).toMatchObject({ from: "Alice", arrow: "->", to: "Jill", text: "Hello" });
+      expect(diagram.sequence[20]).toMatchObject({ from: "Jill", arrow: "->", to: "Alice", text: "Hi" });
+      expect(diagram.sequence[21]).toMatchObject({ from: "Alice", arrow: "->", to: "Jenny", text: "Hello" });
+      expect(diagram.sequence[22]).toMatchObject({ from: "Jenny", arrow: "->", to: "Alice", text: "Hi" });
     });
   });
 

@@ -42,16 +42,19 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return this.title ? `title ${this.title}` : "";
   }
 
-  addParticipant(name: string, { type, alias, create }: ParticipantOptions = { type: "participant" }): void {
+  participant(name: string, { type, alias, create }: ParticipantOptions = { type: "participant" }): this {
     this.sequence.push({ name, type: type ?? "participant", alias, create });
+    return this;
   }
 
-  participant(name: string, options: ParticipantOptions = { type: "participant" }): void {
-    this.addParticipant(name, options);
+  actor(name: string, options?: ParticipantOptions): this {
+    this.participant(name, { ...options, type: "actor" });
+    return this;
   }
 
-  destroyParticipant(name: string): void {
+  destroyParticipant(name: string): this {
     this.sequence.push({ name, type: "participant", destroy: true });
+    return this;
   }
 
   renderParticipant(participant: SequenceParticipant): string {
@@ -64,11 +67,12 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${createString}${type} ${name}${aliasString}`;
   }
 
-  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): void {
+  message(from: string, arrow: SequenceMessageArrow, to: string, text: string, options?: SequenceMessageOptions): this {
     if (options?.activate && options?.deactivate) {
       throw new Error("Cannot activate and deactivate a message");
     }
     this.sequence.push({ type: "message", from, arrow, to, text, ...options });
+    return this;
   }
 
   renderMessage(message: SequenceMessage): string {
@@ -78,8 +82,9 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${activateString}${from}${arrow}${activateString}${deactivateString}${to}: ${text}`;
   }
 
-  box(text: string, options?: SequenceBoxOptions): void {
+  box(text: string, options?: SequenceBoxOptions): this {
     this.sequence.push({ type: "box", text, ...options });
+    return this;
   }
 
   renderBox(box: SequenceBox): string {
@@ -87,16 +92,19 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `Box ${color ?? ""}${text}`;
   }
 
-  end() {
+  end(): this {
     this.sequence.push({ type: "end" });
+    return this;
   }
 
-  activate(participant: string): void {
+  activate(participant: string): this {
     this.sequence.push({ type: "activate", participant });
+    return this;
   }
 
-  deactivate(participant: string): void {
+  deactivate(participant: string): this {
     this.sequence.push({ type: "deactivate", participant });
+    return this;
   }
 
   renderActivation(activation: SequenceActivation): string {
@@ -104,20 +112,24 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${type} ${participant}`;
   }
 
-  note(location: SequenceNoteLocation, participants: string[], text: string): void {
+  note(location: SequenceNoteLocation, participants: string[], text: string): this {
     this.sequence.push({ type: "note", location, participants, text });
+    return this;
   }
 
-  noteOver(participants: string[], text: string): void {
+  noteOver(participants: string[], text: string): this {
     this.note("over", participants, text);
+    return this;
   }
 
-  noteLeftOf(participants: string[], text: string): void {
+  noteLeftOf(participants: string[], text: string): this {
     this.note("left of", participants, text);
+    return this;
   }
 
-  noteRightOf(participants: string[], text: string): void {
+  noteRightOf(participants: string[], text: string): this {
     this.note("right of", participants, text);
+    return this;
   }
 
   renderNote(note: SequenceNote): string {
@@ -125,8 +137,9 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `Note ${location} ${participants.join(",")}: ${text}`;
   }
 
-  region(variant: SequenceRegion, text: string): void {
+  region(variant: SequenceRegion, text: string): this {
     this.sequence.push({ type: variant, text });
+    return this;
   }
 
   renderRegion(region: SequenceRegionItem): string {
@@ -134,40 +147,49 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${type} ${text}`;
   }
 
-  loop(text: string): void {
+  loop(text: string): this {
     this.region("loop", text);
+    return this;
   }
 
-  alt(text: string): void {
+  alt(text: string): this {
     this.region("alt", text);
+    return this;
   }
 
-  else(text: string): void {
+  else(text: string): this {
     this.region("else", text);
+    return this;
   }
 
-  opt(text: string): void {
+  opt(text: string): this {
     this.region("opt", text);
+    return this;
   }
 
-  par(text: string): void {
+  par(text: string): this {
     this.region("par", text);
+    return this;
   }
 
-  critical(text: string): void {
+  critical(text: string): this {
     this.region("critical", text);
+    return this;
   }
 
-  and(text: string): void {
+  and(text: string): this {
     this.region("and", text);
+    return this;
   }
 
-  break(text: string): void {
+  break(text: string): this {
     this.region("break", text);
+    return this;
   }
 
-  rect(color: string): void {
+  rect(color: string): this {
     this.sequence.push({ type: "rect", color });
+    return this;
   }
 
   renderRect(rect: SequenceRect): string {
@@ -175,8 +197,9 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `rect ${color}`;
   }
 
-  comment(text: string): void {
+  comment(text: string): this {
     this.sequence.push({ type: "comment", text });
+    return this;
   }
 
   renderComment(comment: SequenceComment): string {
@@ -184,8 +207,9 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `%% ${text}`;
   }
 
-  custom(text: string): void {
+  custom(text: string): this {
     this.sequence.push({ type: "custom", text });
+    return this;
   }
 
   renderCustom({ text }: SequenceCustom): string {
