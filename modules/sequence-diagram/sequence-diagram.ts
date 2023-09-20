@@ -14,6 +14,7 @@ import {
   SequenceNote,
   SequenceNoteLocation,
   SequenceParticipant,
+  SequenceRect,
   SequenceRegion,
   SequenceRegionItem,
 } from "@/types";
@@ -156,6 +157,15 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     this.region("break", text);
   }
 
+  rect(color: string): void {
+    this.sequence.push({ type: "rect", color });
+  }
+
+  renderRect(rect: SequenceRect): string {
+    const { color } = rect;
+    return `rect ${color}`;
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -173,6 +183,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     critical: (item) => this.renderRegion(item as SequenceRegionItem),
     and: (item) => this.renderRegion(item as SequenceRegionItem),
     break: (item) => this.renderRegion(item as SequenceRegionItem),
+    rect: (item) => this.renderRect(item as SequenceRect),
   };
 
   render() {

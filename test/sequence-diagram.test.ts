@@ -330,6 +330,13 @@ describe("Sequence Diagram", () => {
       expect(render).toContain("break Huy");
       expect(render).toContain("end");
     });
+
+    test("should render rect", () => {
+      const diagram = new SequenceDiagram();
+      diagram.rect("red");
+      const render = diagram.render();
+      expect(render).toContain("rect red");
+    });
   });
 
   describe("demo case", () => {

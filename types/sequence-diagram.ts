@@ -54,6 +54,11 @@ export interface SequenceRegionItem {
   text: string;
 }
 
+export interface SequenceRect {
+  type: "rect";
+  color: string;
+}
+
 export type SequenceItemKey =
   | "participant"
   | "actor"
@@ -63,6 +68,7 @@ export type SequenceItemKey =
   | "activate"
   | "deactivate"
   | "note"
+  | "rect"
   | SequenceRegion;
 export type SequenceItem =
   | SequenceParticipant
@@ -71,7 +77,8 @@ export type SequenceItem =
   | SequenceEnd
   | SequenceActivation
   | SequenceNote
-  | SequenceRegionItem;
+  | SequenceRegionItem
+  | SequenceRect;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -247,6 +254,18 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param text The text of the break
    */
   break(text: string): void;
+
+  /**
+   * Begin a rect region
+   * @param color The color of the rect
+   */
+  rect(color: string): void;
+
+  /**
+   * Render a rect region
+   * @param rect The rect to render
+   */
+  renderRect(rect: SequenceRect): string;
 
   /**
    * Defines the render methods that are used for each item in the sequence diagram
