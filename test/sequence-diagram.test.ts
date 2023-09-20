@@ -125,5 +125,24 @@ describe("Sequence Diagram", () => {
       expect(render).toContain("Alice->Bob: Hello");
       expect(render).toContain("Bob->Alice: Hi");
     });
+
+    test("should render all messages with different arrows", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "-->", "Bob", "Hello");
+      diagram.message("Bob", "-->>", "Alice", "Hi");
+      diagram.message("Alice", "->>", "Bob", "Hello");
+      diagram.message("Bob", "-x", "Alice", "Hi");
+      diagram.message("Alice", "--x", "Bob", "Hello");
+      diagram.message("Bob", "-)", "Alice", "Hi");
+      diagram.message("Alice", "--)", "Bob", "Hello");
+      const render = diagram.render();
+      expect(render).toContain("Alice-->Bob: Hello");
+      expect(render).toContain("Bob-->>Alice: Hi");
+      expect(render).toContain("Alice->>Bob: Hello");
+      expect(render).toContain("Bob-xAlice: Hi");
+      expect(render).toContain("Alice--xBob: Hello");
+      expect(render).toContain("Bob-)Alice: Hi");
+      expect(render).toContain("Alice--)Bob: Hello");
+    });
   });
 });
