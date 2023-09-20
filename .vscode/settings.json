@@ -1,0 +1,15 @@
+{
+  "prettier.useEditorConfig": false,
+  "prettier.configPath": ".prettierrc.json",
+  "editor.formatOnSave": true,
+  "eslint.validate": ["javascript", "typescript"],
+  "conventionalCommits.gitmoji": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "thunder-client.saveToWorkspace": true,
+  "thunder-client.workspaceRelativePath": ".vscode",
+  "cSpell.words": [ "NEXETH"]
+}
