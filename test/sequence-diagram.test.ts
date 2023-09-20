@@ -172,6 +172,30 @@ describe("Sequence Diagram", () => {
     });
   });
 
+  describe("box", () => {
+    test("should add a box", () => {
+      const diagram = new SequenceDiagram();
+      diagram.box("Hello");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+    });
+
+    test("should add multiple boxes", () => {
+      const diagram = new SequenceDiagram();
+      diagram.box("Hello");
+      diagram.box("Hi");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ text: "Hi" });
+    });
+
+    test("should render an end", () => {
+      const diagram = new SequenceDiagram();
+      diagram.box("Hello");
+      diagram.end();
+      const render = diagram.render();
+      expect(render).toContain("end");
+    });
+  });
+
   describe("demo case", () => {
     test("should render demo case", () => {
       const diagram = new SequenceDiagram();

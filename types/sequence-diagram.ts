@@ -23,8 +23,20 @@ export interface SequenceMessage extends SequenceMessageOptions {
   text: string;
 }
 
-export type SequenceItemKey = "participant" | "actor" | "message";
-export type SequenceItem = SequenceParticipant | SequenceMessage;
+export interface SequenceBoxOptions {
+  color?: string;
+}
+export interface SequenceBox extends SequenceBoxOptions {
+  type: "box";
+  text: string;
+}
+
+export interface SequenceEnd {
+  type: "end";
+}
+
+export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end";
+export type SequenceItem = SequenceParticipant | SequenceMessage | SequenceBox | SequenceEnd;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -74,6 +86,24 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @returns The rendered message
    */
   renderMessage(message: SequenceMessage): string;
+
+  /**
+   * Add a box to the diagram
+   * @param text The text of the box
+   * @param options (optional) The options of the box
+   */
+  box(text: string, options?: SequenceBoxOptions): void;
+
+  /**
+   * Render a box
+   * @param box The box to render
+   */
+  renderBox(box: SequenceBox): string;
+
+  /**
+   * End the currently open box
+   */
+  end(): void;
 
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string>;
 }
