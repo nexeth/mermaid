@@ -1,45 +1,49 @@
 import { AbstractMermaid } from "../abstract-mermaid";
 
-import { SequenceDiagramInterface, SequenceParticipant } from "@/types";
+import { SequenceDiagramInterface, SequenceItem, SequenceItemKey, SequenceParticipant } from "@/types";
 
 export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramInterface {
-  participants: SequenceParticipant[] = [];
-
-  addParticipant(name: string, participant?: Omit<SequenceParticipant, "name">): void {
-    if (!this.participants.find((p) => p.name === name)) {
-      this.participants.push({ name, ...participant });
-    }
+  constructor(title?: string) {
+    super();
+    this.title = title;
   }
 
-  participant(name: string, participant?: Omit<SequenceParticipant, "name">): void {
-    this.addParticipant(name, participant);
+  title?: string;
+
+  sequence: SequenceParticipant[] = [];
+
+  addParticipant(name: string, { type, alias }: { type?: "participant" | "actor"; alias?: string } = {}): void {
+    this.sequence.push({ name, type: type ?? "participant", alias });
   }
 
-  removeParticipant(participant: string): void {
-    this.participants = this.participants.filter((p) => p.name !== participant);
-  }
-
-  editParticipant(oldParticipantName: string, newParticipant: SequenceParticipant): void {
-    const participant = this.participants.find((p) => p.name === oldParticipantName);
-    if (participant) {
-      participant.name = newParticipant.name;
-      participant.alias = newParticipant.alias;
-      participant.actor = newParticipant.actor;
-    }
+  participant(name: string, options: { type?: "participant" | "actor"; alias?: string } = {}): void {
+    this.addParticipant(name, options);
   }
 
   renderParticipant(participant: SequenceParticipant): string {
-    const keyword = participant.actor ? "actor" : "participant";
-
-    return `${keyword} ${participant.name}${participant.alias ? ` as ${participant.alias}` : ""}`;
+    return `${participant.type} ${participant.name}${participant.alias ? ` as ${participant.alias}` : ""}`;
   }
 
+  renderTitle(): string {
+    return this.title ? `title ${this.title}` : "";
+  }
+
+  renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
+    participant: (item: SequenceParticipant) => this.renderParticipant(item),
+    actor: (item: SequenceParticipant) => this.renderParticipant(item),
+    message: (item: SequenceParticipant) => this.renderParticipant(item),
+  };
+
   render() {
-    const _participants = this.participants.map((p) => this.renderParticipant(p)).join("\n");
+    const renderedSequence = this.sequence.map((item) => this.renderMap[item.type](item));
+
     return `
 sequenceDiagram
-      
-${_participants}
- `;
+${this.renderTitle()}
+${renderedSequence.join("\n")}`;
+  }
+
+  reset(): void {
+    this.sequence = [];
   }
 }

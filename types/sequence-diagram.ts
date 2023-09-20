@@ -1,43 +1,35 @@
+import { type } from "os";
+
 import { Mermaid } from "./mermaid";
 
 export interface SequenceParticipant {
+  type: "participant" | "actor";
   name: string;
   alias?: string;
-  actor?: boolean;
 }
 
 export type SequenceMessage = "->" | "-->" | "-->>" | "->>" | "-x" | "--x" | "-)" | "--)";
 
+export type SequenceItemKey = "participant" | "actor" | "message";
+export type SequenceItem = SequenceParticipant;
+
 export interface SequenceDiagramInterface extends Mermaid {
   /**
-   * The name of all participants in the diagram
+   * The current sequence diagram sequence
    */
-  participants: SequenceParticipant[];
+  sequence: SequenceItem[];
 
   /**
    * Add a participant to the diagram
    * @param name The name of the participant
    * @param options (optional) The options of the participant
    */
-  addParticipant(name: string, options?: Omit<SequenceParticipant, "name">): void;
+  addParticipant(name: string, options?: { type?: "participant" | "actor"; alias?: string }): void;
 
   /**
-   * Add a participant to the diagram
+   * Add a participant to the diagram (shorthand)
    * @param name The name of the participant
    * @param options (optional) The options of the participant
    */
-  participant(name: string, options?: Omit<SequenceParticipant, "name">): void;
-
-  /**
-   * Edit the name of a participant
-   * @param oldName The old name of the participant
-   * @param newName The new name of the participant
-   */
-  editParticipant(oldParticipantName: string, newParticipant: SequenceParticipant): void;
-
-  /**
-   * Remove a participant from the diagram
-   * @param participant The name of the participant
-   */
-  removeParticipant(participant: string): void;
+  participant(name: string, options?: { type?: "participant" | "actor"; alias?: string }): void;
 }

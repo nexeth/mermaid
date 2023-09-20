@@ -7,41 +7,23 @@ describe("Sequence Diagram", () => {
     test("should add a participant", () => {
       const diagram = new SequenceDiagram();
       diagram.addParticipant("Alice");
-      expect(diagram.participants[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
     });
 
     test("should add multiple participants", () => {
       const diagram = new SequenceDiagram();
       diagram.addParticipant("Alice");
       diagram.addParticipant("Bob");
-      expect(diagram.participants[0]).toMatchObject({ name: "Alice" });
-      expect(diagram.participants[1]).toMatchObject({ name: "Bob" });
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.sequence[1]).toMatchObject({ name: "Bob" });
     });
 
     test("should support participant shorthand", () => {
       const diagram = new SequenceDiagram();
       diagram.participant("Alice");
       diagram.participant("Bob");
-      expect(diagram.participants[0]).toMatchObject({ name: "Alice" });
-      expect(diagram.participants[1]).toMatchObject({ name: "Bob" });
-    });
-
-    test("should not add duplicate participants", () => {
-      const diagram = new SequenceDiagram();
-      expect(diagram.participants).toHaveLength(0);
-      diagram.addParticipant("Alice");
-      expect(diagram.participants).toHaveLength(1);
-      diagram.addParticipant("Alice");
-      expect(diagram.participants).toHaveLength(1);
-    });
-
-    test("should remove a participant", () => {
-      const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice");
-      expect(diagram.participants[0]).toMatchObject({ name: "Alice" });
-      expect(diagram.participants).toHaveLength(1);
-      diagram.removeParticipant("Alice");
-      expect(diagram.participants).toHaveLength(0);
+      expect(diagram.sequence[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.sequence[1]).toMatchObject({ name: "Bob" });
     });
 
     test("should render all participants", () => {
@@ -64,8 +46,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with actor", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { actor: true });
-      diagram.addParticipant("Bob", { actor: true });
+      diagram.addParticipant("Alice", { type: "actor" });
+      diagram.addParticipant("Bob", { type: "actor" });
       const render = diagram.render();
       expect(render).toContain("actor Alice");
       expect(render).toContain("actor Bob");
@@ -73,11 +55,23 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with alias and actor", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { alias: "A", actor: true });
-      diagram.addParticipant("Bob", { alias: "B", actor: true });
+      diagram.addParticipant("Alice", { alias: "A", type: "actor" });
+      diagram.addParticipant("Bob", { alias: "B", type: "actor" });
       const render = diagram.render();
       expect(render).toContain("actor Alice as A");
       expect(render).toContain("actor Bob as B");
+    });
+  });
+
+  describe("title", () => {
+    test("should render title", () => {
+      const diagram = new SequenceDiagram("Title");
+      expect(diagram.render()).toContain("Title");
+    });
+
+    test("should not render title if not set", () => {
+      const diagram = new SequenceDiagram();
+      expect(diagram.render()).not.toContain("Title");
     });
   });
 });
