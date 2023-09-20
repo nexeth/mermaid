@@ -35,8 +35,13 @@ export interface SequenceEnd {
   type: "end";
 }
 
-export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end";
-export type SequenceItem = SequenceParticipant | SequenceMessage | SequenceBox | SequenceEnd;
+export interface SequenceActivation {
+  type: "activate" | "deactivate";
+  participant: string;
+}
+
+export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end" | "activate" | "deactivate";
+export type SequenceItem = SequenceParticipant | SequenceMessage | SequenceBox | SequenceEnd | SequenceActivation;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -104,6 +109,16 @@ export interface SequenceDiagramInterface extends Mermaid {
    * End the currently open box
    */
   end(): void;
+
+  /**
+   * Add an activation to the diagram
+   */
+  activate(participant: string): void;
+
+  /**
+   * Add a deactivation to the diagram
+   */
+  deactivate(participant: string): void;
 
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string>;
 }

@@ -196,6 +196,28 @@ describe("Sequence Diagram", () => {
     });
   });
 
+  describe("activate", () => {
+    test("should activate a participant", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.activate("Alice");
+      const render = diagram.render();
+      expect(render).toContain("activate Alice");
+    });
+  });
+
+  describe("deactivate", () => {
+    test("should deactivate a participant", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.activate("Alice");
+      diagram.deactivate("Alice");
+      const render = diagram.render();
+      expect(render).toContain("activate Alice");
+      expect(render).toContain("deactivate Alice");
+    });
+  });
+
   describe("demo case", () => {
     test("should render demo case", () => {
       const diagram = new SequenceDiagram();

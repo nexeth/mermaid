@@ -2,6 +2,7 @@ import { AbstractMermaid } from "../abstract-mermaid";
 
 import {
   ParticipantOptions,
+  SequenceActivation,
   SequenceBox,
   SequenceBoxOptions,
   SequenceDiagramInterface,
@@ -76,12 +77,27 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     this.sequence.push({ type: "end" });
   }
 
+  activate(participant: string): void {
+    this.sequence.push({ type: "activate", participant });
+  }
+
+  deactivate(participant: string): void {
+    this.sequence.push({ type: "deactivate", participant });
+  }
+
+  renderActivation(activation: SequenceActivation): string {
+    const { type, participant } = activation;
+    return `${type} ${participant}`;
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
     message: (item) => this.renderMessage(item as SequenceMessage),
     box: (item) => this.renderBox(item as SequenceBox),
     end: () => "end",
+    activate: (item) => this.renderActivation(item as SequenceActivation),
+    deactivate: (item) => this.renderActivation(item as SequenceActivation),
   };
 
   render() {
