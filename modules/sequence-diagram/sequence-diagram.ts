@@ -11,6 +11,8 @@ import {
   SequenceMessage,
   SequenceMessageArrow,
   SequenceMessageOptions,
+  SequenceNote,
+  SequenceNoteLocation,
   SequenceParticipant,
 } from "@/types";
 
@@ -90,6 +92,27 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${type} ${participant}`;
   }
 
+  note(location: SequenceNoteLocation, participants: string[], text: string): void {
+    this.sequence.push({ type: "note", location, participants, text });
+  }
+
+  noteOver(participants: string[], text: string): void {
+    this.note("over", participants, text);
+  }
+
+  noteLeftOf(participants: string[], text: string): void {
+    this.note("left of", participants, text);
+  }
+
+  noteRightOf(participants: string[], text: string): void {
+    this.note("right of", participants, text);
+  }
+
+  renderNote(note: SequenceNote): string {
+    const { location, participants, text } = note;
+    return `Note ${location} ${participants.join(",")}: ${text}`;
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -98,6 +121,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     end: () => "end",
     activate: (item) => this.renderActivation(item as SequenceActivation),
     deactivate: (item) => this.renderActivation(item as SequenceActivation),
+    note: (item) => this.renderNote(item as SequenceNote),
   };
 
   render() {

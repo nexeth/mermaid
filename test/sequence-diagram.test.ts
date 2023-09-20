@@ -218,6 +218,80 @@ describe("Sequence Diagram", () => {
     });
   });
 
+  describe("note", () => {
+    test("should add a note", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.note("right of", ["Alice", "Bob"], "Hello");
+      expect(diagram.sequence[2]).toMatchObject({
+        location: "right of",
+        participants: ["Alice", "Bob"],
+        text: "Hello",
+      });
+    });
+
+    test("should add multiple notes", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.note("right of", ["Alice", "Bob"], "Hello");
+      diagram.noteOver(["Alice", "Bob"], "Hi");
+      expect(diagram.sequence[2]).toMatchObject({
+        location: "right of",
+        participants: ["Alice", "Bob"],
+        text: "Hello",
+      });
+      expect(diagram.sequence[3]).toMatchObject({ location: "over", participants: ["Alice", "Bob"], text: "Hi" });
+    });
+
+    test("should render all notes", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.note("right of", ["Alice", "Bob"], "Hello");
+      diagram.noteOver(["Alice", "Bob"], "Hi");
+      const render = diagram.render();
+      expect(render).toContain("Note right of Alice,Bob: Hello");
+      expect(render).toContain("Note over Alice,Bob: Hi");
+    });
+
+    test("should add a note over", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.noteOver(["Alice", "Bob"], "Hello");
+      expect(diagram.sequence[2]).toMatchObject({ location: "over", participants: ["Alice", "Bob"], text: "Hello" });
+    });
+
+    test("should add a note left of", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.noteLeftOf(["Alice", "Bob"], "Hello");
+      expect(diagram.sequence[2]).toMatchObject({ location: "left of", participants: ["Alice", "Bob"], text: "Hello" });
+    });
+
+    test("should add a note right of", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.addParticipant("Bob");
+      diagram.noteRightOf(["Alice", "Bob"], "Hello");
+      expect(diagram.sequence[2]).toMatchObject({
+        location: "right of",
+        participants: ["Alice", "Bob"],
+        text: "Hello",
+      });
+    });
+
+    test("should add a note for a single participant", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice");
+      diagram.noteRightOf(["Alice"], "Hello");
+      expect(diagram.sequence[1]).toMatchObject({ location: "right of", participants: ["Alice"], text: "Hello" });
+    });
+  });
+
   describe("demo case", () => {
     test("should render demo case", () => {
       const diagram = new SequenceDiagram();

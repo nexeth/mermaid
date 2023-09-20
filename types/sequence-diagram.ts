@@ -40,8 +40,22 @@ export interface SequenceActivation {
   participant: string;
 }
 
-export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end" | "activate" | "deactivate";
-export type SequenceItem = SequenceParticipant | SequenceMessage | SequenceBox | SequenceEnd | SequenceActivation;
+export type SequenceNoteLocation = "right of" | "left of" | "over";
+export interface SequenceNote {
+  type: "note";
+  location: SequenceNoteLocation;
+  text: string;
+  participants: string[];
+}
+
+export type SequenceItemKey = "participant" | "actor" | "message" | "box" | "end" | "activate" | "deactivate" | "note";
+export type SequenceItem =
+  | SequenceParticipant
+  | SequenceMessage
+  | SequenceBox
+  | SequenceEnd
+  | SequenceActivation
+  | SequenceNote;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -112,13 +126,52 @@ export interface SequenceDiagramInterface extends Mermaid {
 
   /**
    * Add an activation to the diagram
+   * @param participant The participant to activate
    */
   activate(participant: string): void;
 
   /**
    * Add a deactivation to the diagram
+   * @param participant The participant to deactivate
    */
   deactivate(participant: string): void;
 
+  /**
+   * Add a note to the diagram
+   * @param location The location of the note
+   * @param participants The participants of the note
+   * @param text The text of the note
+   */
+  note(location: SequenceNoteLocation, participants: string[], text: string): void;
+
+  /**
+   * Add a note over to the diagram
+   * @param participants The participants of the note
+   * @param text The text of the note
+   */
+  noteOver(participants: string[], text: string): void;
+
+  /**
+   * Add a note left of to the diagram
+   * @param participants The participants of the note
+   * @param text The text of the note
+   */
+  noteLeftOf(participants: string[], text: string): void;
+
+  /**
+   * Add a note right of to the diagram
+   * @param participants The participants of the note
+   * @param text The text of the note
+   */
+  noteRightOf(participants: string[], text: string): void;
+
+  /**
+   * Render a note
+   */
+  renderNote(note: SequenceNote): string;
+
+  /**
+   * Defines the render methods that are used for each item in the sequence diagram
+   */
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string>;
 }
