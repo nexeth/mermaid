@@ -152,6 +152,10 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     this.region("and", text);
   }
 
+  break(text: string): void {
+    this.region("break", text);
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -168,6 +172,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     par: (item) => this.renderRegion(item as SequenceRegionItem),
     critical: (item) => this.renderRegion(item as SequenceRegionItem),
     and: (item) => this.renderRegion(item as SequenceRegionItem),
+    break: (item) => this.renderRegion(item as SequenceRegionItem),
   };
 
   render() {

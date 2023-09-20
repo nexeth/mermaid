@@ -316,6 +316,8 @@ describe("Sequence Diagram", () => {
       diagram.par("Huy");
       diagram.critical("Hoy");
       diagram.and("Huy");
+      diagram.break("Huy");
+      diagram.end();
 
       const render = diagram.render();
       expect(render).toContain("loop Hello");
@@ -325,6 +327,8 @@ describe("Sequence Diagram", () => {
       expect(render).toContain("par Huy");
       expect(render).toContain("critical Hoy");
       expect(render).toContain("and Huy");
+      expect(render).toContain("break Huy");
+      expect(render).toContain("end");
     });
   });
 

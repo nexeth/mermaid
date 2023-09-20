@@ -48,7 +48,7 @@ export interface SequenceNote {
   participants: string[];
 }
 
-export type SequenceRegion = "loop" | "alt" | "else" | "opt" | "par" | "critical" | "and";
+export type SequenceRegion = "loop" | "alt" | "else" | "opt" | "par" | "critical" | "and" | "break";
 export interface SequenceRegionItem {
   type: SequenceRegion;
   text: string;
@@ -241,6 +241,12 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param text The text of the and
    */
   and(text: string): void;
+
+  /**
+   * Begin a break region
+   * @param text The text of the break
+   */
+  break(text: string): void;
 
   /**
    * Defines the render methods that are used for each item in the sequence diagram
