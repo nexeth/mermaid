@@ -59,6 +59,11 @@ export interface SequenceRect {
   color: string;
 }
 
+export interface SequenceComment {
+  type: "comment";
+  text: string;
+}
+
 export type SequenceItemKey =
   | "participant"
   | "actor"
@@ -69,6 +74,7 @@ export type SequenceItemKey =
   | "deactivate"
   | "note"
   | "rect"
+  | "comment"
   | SequenceRegion;
 export type SequenceItem =
   | SequenceParticipant
@@ -78,7 +84,8 @@ export type SequenceItem =
   | SequenceActivation
   | SequenceNote
   | SequenceRegionItem
-  | SequenceRect;
+  | SequenceRect
+  | SequenceComment;
 
 export interface SequenceDiagramInterface extends Mermaid {
   /**
@@ -266,6 +273,18 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param rect The rect to render
    */
   renderRect(rect: SequenceRect): string;
+
+  /**
+   * Add a comment to the diagram
+   * @param text The text of the comment
+   */
+  comment(text: string): void;
+
+  /**
+   * Render a comment
+   * @param comment The comment to render
+   */
+  renderComment(comment: SequenceComment): string;
 
   /**
    * Defines the render methods that are used for each item in the sequence diagram

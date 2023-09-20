@@ -5,6 +5,7 @@ import {
   SequenceActivation,
   SequenceBox,
   SequenceBoxOptions,
+  SequenceComment,
   SequenceDiagramInterface,
   SequenceItem,
   SequenceItemKey,
@@ -166,6 +167,15 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `rect ${color}`;
   }
 
+  comment(text: string): void {
+    this.sequence.push({ type: "comment", text });
+  }
+
+  renderComment(comment: SequenceComment): string {
+    const { text } = comment;
+    return `%% ${text}`;
+  }
+
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
     participant: (item) => this.renderParticipant(item as SequenceParticipant),
     actor: (item) => this.renderParticipant(item as SequenceParticipant),
@@ -184,6 +194,7 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     and: (item) => this.renderRegion(item as SequenceRegionItem),
     break: (item) => this.renderRegion(item as SequenceRegionItem),
     rect: (item) => this.renderRect(item as SequenceRect),
+    comment: (item) => this.renderComment(item as SequenceComment),
   };
 
   render() {

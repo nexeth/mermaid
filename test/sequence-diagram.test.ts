@@ -339,6 +339,31 @@ describe("Sequence Diagram", () => {
     });
   });
 
+  describe("comment", () => {
+    test("should add a comment", () => {
+      const diagram = new SequenceDiagram();
+      diagram.comment("Hello");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+    });
+
+    test("should add multiple comments", () => {
+      const diagram = new SequenceDiagram();
+      diagram.comment("Hello");
+      diagram.comment("Hi");
+      expect(diagram.sequence[0]).toMatchObject({ text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ text: "Hi" });
+    });
+
+    test("should render all comments", () => {
+      const diagram = new SequenceDiagram();
+      diagram.comment("Hello");
+      diagram.comment("Hi");
+      const render = diagram.render();
+      expect(render).toContain("%% Hello");
+      expect(render).toContain("%% Hi");
+    });
+  });
+
   describe("demo case", () => {
     test("should render demo case", () => {
       const diagram = new SequenceDiagram();
