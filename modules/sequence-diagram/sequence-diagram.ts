@@ -11,6 +11,10 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     }
   }
 
+  participant(name: string, participant?: Omit<SequenceParticipant, "name">): void {
+    this.addParticipant(name, participant);
+  }
+
   removeParticipant(participant: string): void {
     this.participants = this.participants.filter((p) => p.name !== participant);
   }

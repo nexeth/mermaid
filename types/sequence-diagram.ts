@@ -22,6 +22,13 @@ export interface SequenceDiagramInterface extends Mermaid {
   addParticipant(name: string, options?: Omit<SequenceParticipant, "name">): void;
 
   /**
+   * Add a participant to the diagram
+   * @param name The name of the participant
+   * @param options (optional) The options of the participant
+   */
+  participant(name: string, options?: Omit<SequenceParticipant, "name">): void;
+
+  /**
    * Edit the name of a participant
    * @param oldName The old name of the participant
    * @param newName The new name of the participant

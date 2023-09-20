@@ -18,6 +18,14 @@ describe("Sequence Diagram", () => {
       expect(diagram.participants[1]).toMatchObject({ name: "Bob" });
     });
 
+    test("should support participant shorthand", () => {
+      const diagram = new SequenceDiagram();
+      diagram.participant("Alice");
+      diagram.participant("Bob");
+      expect(diagram.participants[0]).toMatchObject({ name: "Alice" });
+      expect(diagram.participants[1]).toMatchObject({ name: "Bob" });
+    });
+
     test("should not add duplicate participants", () => {
       const diagram = new SequenceDiagram();
       expect(diagram.participants).toHaveLength(0);
