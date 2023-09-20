@@ -5,6 +5,8 @@ import {
   SequenceDiagramInterface,
   SequenceItem,
   SequenceItemKey,
+  SequenceMessage,
+  SequenceMessageArrow,
   SequenceParticipant,
 } from "@/types";
 
@@ -16,7 +18,11 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
 
   title?: string;
 
-  sequence: SequenceParticipant[] = [];
+  sequence: SequenceItem[] = [];
+
+  renderTitle(): string {
+    return this.title ? `title ${this.title}` : "";
+  }
 
   addParticipant(name: string, { type, alias, create }: ParticipantOptions = { type: "participant" }): void {
     this.sequence.push({ name, type: type ?? "participant", alias, create });
@@ -40,14 +46,19 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
     return `${createString}${type} ${name}${aliasString}`;
   }
 
-  renderTitle(): string {
-    return this.title ? `title ${this.title}` : "";
+  message(from: string, arrow: SequenceMessageArrow, to: string, text: string): void {
+    this.sequence.push({ type: "message", from, arrow, to, text });
+  }
+
+  renderMessage(message: SequenceMessage): string {
+    const { from, arrow, to, text } = message;
+    return `${from}${arrow}${to}: ${text}`;
   }
 
   renderMap: Record<SequenceItemKey, (props: SequenceItem) => string> = {
-    participant: (item: SequenceParticipant) => this.renderParticipant(item),
-    actor: (item: SequenceParticipant) => this.renderParticipant(item),
-    message: (item: SequenceParticipant) => this.renderParticipant(item),
+    participant: (item) => this.renderParticipant(item as SequenceParticipant),
+    actor: (item) => this.renderParticipant(item as SequenceParticipant),
+    message: (item) => this.renderMessage(item as SequenceMessage),
   };
 
   render() {

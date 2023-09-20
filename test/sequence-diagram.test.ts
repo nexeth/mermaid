@@ -101,4 +101,29 @@ describe("Sequence Diagram", () => {
       expect(diagram.render()).not.toContain("Title");
     });
   });
+
+  describe("message", () => {
+    test("should add a message", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello");
+      expect(diagram.sequence[0]).toMatchObject({ from: "Alice", arrow: "->", to: "Bob", text: "Hello" });
+    });
+
+    test("should add multiple messages", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello");
+      diagram.message("Bob", "->", "Alice", "Hi");
+      expect(diagram.sequence[0]).toMatchObject({ from: "Alice", arrow: "->", to: "Bob", text: "Hello" });
+      expect(diagram.sequence[1]).toMatchObject({ from: "Bob", arrow: "->", to: "Alice", text: "Hi" });
+    });
+
+    test("should render all messages", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->", "Bob", "Hello");
+      diagram.message("Bob", "->", "Alice", "Hi");
+      const render = diagram.render();
+      expect(render).toContain("Alice->Bob: Hello");
+      expect(render).toContain("Bob->Alice: Hi");
+    });
+  });
 });
