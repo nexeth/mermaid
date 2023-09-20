@@ -5,5 +5,5 @@ export interface Mermaid {
   /**
    * Render the mermaid diagram.
    */
-  render(): void;
+  render(): string;
 }
