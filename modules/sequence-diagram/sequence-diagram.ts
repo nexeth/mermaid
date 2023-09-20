@@ -105,8 +105,8 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
 
     return `
 sequenceDiagram
-${this.renderTitle()}
-${renderedSequence.join("\n")}`;
+\t${this.renderTitle()}
+\t${renderedSequence.join("\n\t")}`;
   }
 
   reset(): void {
