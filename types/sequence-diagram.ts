@@ -1,11 +1,14 @@
-import { type } from "os";
-
 import { Mermaid } from "./mermaid";
 
-export interface SequenceParticipant {
+export interface ParticipantOptions {
   type: "participant" | "actor";
-  name: string;
   alias?: string;
+  create?: boolean;
+  destroy?: boolean;
+}
+
+export interface SequenceParticipant extends ParticipantOptions {
+  name: string;
 }
 
 export type SequenceMessage = "->" | "-->" | "-->>" | "->>" | "-x" | "--x" | "-)" | "--)";
@@ -24,12 +27,18 @@ export interface SequenceDiagramInterface extends Mermaid {
    * @param name The name of the participant
    * @param options (optional) The options of the participant
    */
-  addParticipant(name: string, options?: { type?: "participant" | "actor"; alias?: string }): void;
+  addParticipant(name: string, options?: ParticipantOptions): void;
 
   /**
    * Add a participant to the diagram (shorthand)
    * @param name The name of the participant
    * @param options (optional) The options of the participant
    */
-  participant(name: string, options?: { type?: "participant" | "actor"; alias?: string }): void;
+  participant(name: string, options?: ParticipantOptions): void;
+
+  /**
+   * Destroy a participant
+   * @param name The name of the participant
+   */
+  destroyParticipant(name: string): void;
 }

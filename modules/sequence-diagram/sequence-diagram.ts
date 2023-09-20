@@ -1,6 +1,12 @@
 import { AbstractMermaid } from "../abstract-mermaid";
 
-import { SequenceDiagramInterface, SequenceItem, SequenceItemKey, SequenceParticipant } from "@/types";
+import {
+  ParticipantOptions,
+  SequenceDiagramInterface,
+  SequenceItem,
+  SequenceItemKey,
+  SequenceParticipant,
+} from "@/types";
 
 export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramInterface {
   constructor(title?: string) {
@@ -12,16 +18,26 @@ export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramI
 
   sequence: SequenceParticipant[] = [];
 
-  addParticipant(name: string, { type, alias }: { type?: "participant" | "actor"; alias?: string } = {}): void {
-    this.sequence.push({ name, type: type ?? "participant", alias });
+  addParticipant(name: string, { type, alias, create }: ParticipantOptions = { type: "participant" }): void {
+    this.sequence.push({ name, type: type ?? "participant", alias, create });
   }
 
-  participant(name: string, options: { type?: "participant" | "actor"; alias?: string } = {}): void {
+  participant(name: string, options: ParticipantOptions = { type: "participant" }): void {
     this.addParticipant(name, options);
   }
 
+  destroyParticipant(name: string): void {
+    this.sequence.push({ name, type: "participant", destroy: true });
+  }
+
   renderParticipant(participant: SequenceParticipant): string {
-    return `${participant.type} ${participant.name}${participant.alias ? ` as ${participant.alias}` : ""}`;
+    const { name, type, alias, create, destroy } = participant;
+    if (destroy) {
+      return `destroy ${name}`;
+    }
+    const aliasString = alias ? ` as ${alias}` : "";
+    const createString = create ? "create " : "";
+    return `${createString}${type} ${name}${aliasString}`;
   }
 
   renderTitle(): string {

@@ -37,8 +37,8 @@ describe("Sequence Diagram", () => {
 
     test("should render all participants with alias", () => {
       const diagram = new SequenceDiagram();
-      diagram.addParticipant("Alice", { alias: "A" });
-      diagram.addParticipant("Bob", { alias: "B" });
+      diagram.addParticipant("Alice", { type: "participant", alias: "A" });
+      diagram.addParticipant("Bob", { type: "participant", alias: "B" });
       const render = diagram.render();
       expect(render).toContain("participant Alice as A");
       expect(render).toContain("participant Bob as B");
@@ -60,6 +60,33 @@ describe("Sequence Diagram", () => {
       const render = diagram.render();
       expect(render).toContain("actor Alice as A");
       expect(render).toContain("actor Bob as B");
+    });
+
+    test("should render all participants with create", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice", { type: "participant", create: true });
+      diagram.addParticipant("Bob", { type: "participant", create: true });
+      const render = diagram.render();
+      expect(render).toContain("create participant Alice");
+      expect(render).toContain("create participant Bob");
+    });
+
+    test("should render all participants with alias and create", () => {
+      const diagram = new SequenceDiagram();
+      diagram.addParticipant("Alice", { alias: "A", type: "participant", create: true });
+      diagram.addParticipant("Bob", { alias: "B", type: "participant", create: true });
+      const render = diagram.render();
+      expect(render).toContain("create participant Alice as A");
+      expect(render).toContain("create participant Bob as B");
+    });
+
+    test("should render all participants with destroy", () => {
+      const diagram = new SequenceDiagram();
+      diagram.destroyParticipant("Alice");
+      diagram.destroyParticipant("Bob");
+      const render = diagram.render();
+      expect(render).toContain("destroy Alice");
+      expect(render).toContain("destroy Bob");
     });
   });
 
