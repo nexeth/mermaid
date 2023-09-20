@@ -1,5 +1,5 @@
 {
-  "name": "mermaid",
+  "name": "@nexeth/mermaid",
   "module": "index.ts",
   "type": "module",
   "author": "mfbevan",
