@@ -1,0 +1,12 @@
+{
+  "name": "mermaid",
+  "module": "index.ts",
+  "type": "module",
+  "author": "mfbevan",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
