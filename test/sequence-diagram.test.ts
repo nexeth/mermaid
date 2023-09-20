@@ -171,4 +171,16 @@ describe("Sequence Diagram", () => {
       }).toThrow(new Error("Cannot activate and deactivate a message"));
     });
   });
+
+  describe("demo case", () => {
+    test("should render demo case", () => {
+      const diagram = new SequenceDiagram();
+      diagram.message("Alice", "->>", "John", "Hello John, how are you?");
+      diagram.message("John", "-->>", "Alice", "Great!");
+      diagram.message("Alice", "-)", "John", "See you later!");
+
+      // const render = diagram.render();
+      // console.log(render);
+    });
+  });
 });

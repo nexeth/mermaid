@@ -26,6 +26,29 @@ npm install @nexeth/mermaid
 
 > A Sequence diagram is an interaction diagram that shows how processes operate with one another and in what order. Consult the [official documentation](https://mermaid.js.org/syntax/sequenceDiagram.html) for more information
 
+### @nexeth/mermaid Syntax
+
+```ts
+const diagram = new SequenceDiagram();
+diagram.message("Alice", "->>", "John", "Hello John, how are you?");
+diagram.message("John", "-->>", "Alice", "Great!");
+diagram.message("Alice", "-)", "John", "See you later!");
+
+const render = diagram.render();
+console.log(render);
+```
+
+### Mermaid Syntax
+
+```
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!
+```
+
+### Generated Diagram
+
 ```mermaid
 sequenceDiagram
     Alice->>John: Hello John, how are you?
