@@ -3,6 +3,11 @@
   "module": "index.ts",
   "type": "module",
   "author": "mfbevan",
+  "scripts": {
+    "start": "bun index.ts",
+    "test": "bun test",
+    "lint": "eslint . "
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
