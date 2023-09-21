@@ -50,7 +50,7 @@ describe("Flowchart", () => {
     });
   });
 
-  describe.only("node", () => {
+  describe("node", () => {
     test("should be able to add a node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
       flowchart.node("a");
