@@ -1,6 +1,7 @@
 import { AbstractMermaid } from "..";
 
 import {
+  FlowchartComment,
   FlowchartConstructor,
   FlowchartDirection,
   FlowchartInterface,
@@ -101,12 +102,22 @@ export class Flowchart extends AbstractMermaid implements FlowchartInterface {
     return `direction ${direction.direction}`;
   }
 
+  comment(text: string): this {
+    this.flowchart.push({ type: "comment", text });
+    return this;
+  }
+
+  renderComment(comment: FlowchartComment): string {
+    return `%% ${comment.text}`;
+  }
+
   renderMap: Record<FlowchartItemKey, (item: FlowchartItem) => string> = {
     node: (item) => this.renderNode(item as FlowchartNode),
     link: (item) => this.renderLink(item as FlowchartLink),
     subgraph: (item) => this.renderSubgraph(item as FlowchartSubgraph),
     end: () => "end",
     direction: (item) => this.renderDirection(item as FlowchartDirection),
+    comment: (item) => this.renderComment(item as FlowchartComment),
   };
 
   render(): string {

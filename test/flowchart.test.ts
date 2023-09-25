@@ -299,8 +299,19 @@ m((("double-circle")))`);
         { type: "direction", direction: "LR" },
         { type: "end" },
       ]);
+    });
+  });
 
-      console.log(flowchart.render());
+  describe("comment", () => {
+    test("should be able to add a comment", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.comment("comment");
+      expect(flowchart.flowchart).toEqual([{ type: "comment", text: "comment" }]);
+    });
+
+    test("should be able to render a comment", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      expect(flowchart.renderComment({ type: "comment", text: "comment" })).toEqual(`%% comment`);
     });
   });
 

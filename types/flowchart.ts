@@ -182,6 +182,11 @@ export interface FlowchartInterface extends Mermaid {
   direction(direction: FlowchartType): this;
 
   /**
+   * Add a comment to the flowchart
+   */
+  comment(text: string): this;
+
+  /**
    * Mapping of the node styling key to the node styling value
    */
   nodeMap: Record<FlowchartShape, { pre: string; post: string }>;
