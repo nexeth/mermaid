@@ -5,6 +5,8 @@ import {
   FlowchartInterface,
   FlowchartItem,
   FlowchartItemKey,
+  FlowchartLink,
+  FlowchartLinkType,
   FlowchartNode,
   FlowchartShape,
   FlowchartType,
@@ -64,8 +66,19 @@ export class Flowchart extends AbstractMermaid implements FlowchartInterface {
     return `${id}${pre}"${text}"${post}`;
   }
 
+  link(from: string, linkType: FlowchartLinkType, to: string, text?: string | undefined): this {
+    this.flowchart.push({ type: "link", from, linkType, to, text });
+    return this;
+  }
+
+  renderLink(link: FlowchartLink): string {
+    const { from, linkType, to, text } = link;
+    return `${from} ${linkType}${text ? `|"${text}"|` : ""} ${to}`;
+  }
+
   renderMap: Record<FlowchartItemKey, (item: FlowchartItem) => string> = {
     node: (item) => this.renderNode(item as FlowchartNode),
+    link: (item) => this.renderLink(item as FlowchartLink),
   };
 
   render(): string {

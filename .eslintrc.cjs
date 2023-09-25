@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
     semi: ["error", "always"],
+    "eslint-comments/disable-enable-pair": "off",
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": "off",

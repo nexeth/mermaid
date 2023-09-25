@@ -265,6 +265,98 @@ m((("double-circle")))`);
     });
   });
 
+  describe.only("link", () => {
+    test("should be able to add a link", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-->", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "-->", to: "b" }]);
+    });
+
+    test("should be able to add a link with text", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-->", "b", "text");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "-->", to: "b", text: "text" }]);
+    });
+
+    test("should be able to add a link with linkType -->", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-->", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "-->", to: "b" }]);
+    });
+
+    test("should be able to add a link with linkType ---", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "---", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "---", to: "b" }]);
+    });
+
+    test("should be able to add a link with linkType -.->", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-.->", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "-.->", to: "b" }]);
+    });
+
+    test("should be able to add a link with linkType ==>", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "==>", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "==>", to: "b" }]);
+    });
+
+    test("should be able to add a link with linkType ~~~", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "~~~", "b");
+      expect(flowchart.flowchart).toEqual([{ type: "link", from: "a", linkType: "~~~", to: "b" }]);
+    });
+
+    test("should be able to render a link", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      expect(flowchart.renderLink({ type: "link", from: "a", linkType: "-->", to: "b" })).toEqual(`a --> b`);
+    });
+
+    test("should be able to render a link with text", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      expect(flowchart.renderLink({ type: "link", from: "a", linkType: "-->", to: "b", text: "text" })).toEqual(
+        `a -->|"text"| b`
+      );
+    });
+
+    test("should render all link types", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-->", "b");
+      flowchart.link("c", "---", "d");
+      flowchart.link("e", "-.->", "f");
+      flowchart.link("g", "==>", "h");
+      flowchart.link("i", "~~~", "j");
+
+      const rendered = flowchart.render();
+
+      expect(rendered).toEqual(`flowchart TD
+a --> b
+c --- d
+e -.-> f
+g ==> h
+i ~~~ j`);
+    });
+
+    test("should be able to render all link types with text", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.link("a", "-->", "b", "text");
+      flowchart.link("c", "---", "d", "text");
+      flowchart.link("e", "-.->", "f", "text");
+      flowchart.link("g", "==>", "h", "text");
+      flowchart.link("i", "~~~", "j", "text");
+
+      const rendered = flowchart.render();
+
+      expect(rendered).toEqual(`flowchart TD
+a -->|"text"| b
+c ---|"text"| d
+e -.->|"text"| f
+g ==>|"text"| h
+i ~~~|"text"| j`);
+    });
+  });
+
   describe("render", () => {
     test("should be able to render a flowchart", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });

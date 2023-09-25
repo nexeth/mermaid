@@ -22,8 +22,17 @@ export interface FlowchartNode {
   text?: string;
 }
 
-export type FlowchartItemKey = FlowchartNode["type"];
-export type FlowchartItem = FlowchartNode;
+export type FlowchartLinkType = "-->" | "---" | "-.->" | "==>" | "~~~";
+export interface FlowchartLink {
+  type: "link";
+  from: string;
+  to: string;
+  linkType: FlowchartLinkType;
+  text?: string;
+}
+
+export type FlowchartItemKey = FlowchartNode["type"] | FlowchartLink["type"];
+export type FlowchartItem = FlowchartNode | FlowchartLink;
 
 /**
  * Possible FlowChart orientations are:
@@ -59,6 +68,11 @@ export interface FlowchartInterface extends Mermaid {
    * Add a new node to the flowchart
    */
   node(id: string, text?: string, shape?: FlowchartShape): this;
+
+  /**
+   * Add a new link to the flowchart
+   */
+  link(from: string, linkType: string, to: string, text?: string): this;
 
   /**
    * Mapping of the node styling key to the node styling value
