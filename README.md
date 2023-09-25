@@ -1,5 +1,6 @@
 # @nexeth/mermaid
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![npm (tag)](https://img.shields.io/npm/v/@nexeth/mermaid)](https://www.npmjs.com/package/@nexeth/mermaid)
 [![CI Tests](https://github.com/nexeth/mermaid/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/nexeth/mermaid/actions/workflows/test.yaml)
 ![npm (downloads)](https://img.shields.io/npm/dm/@nexeth/mermaid)
