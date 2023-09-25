@@ -7,6 +7,8 @@
   "version": "0.1.0",
   "type": "module",
   "author": "mfbevan",
+  "license": "MIT",
+  "private": false,
   "repository": "https://github.com/nexeth/mermaid",
   "scripts": {
     "start": "bun index.ts",
