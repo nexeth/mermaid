@@ -1,5 +1,3 @@
-import { AbstractMermaid } from "../abstract-mermaid";
-
 import {
   ParticipantOptions,
   SequenceActivation,
@@ -20,7 +18,8 @@ import {
   SequenceRect,
   SequenceRegion,
   SequenceRegionItem,
-} from "@/types";
+} from "../../types";
+import { AbstractMermaid } from "../abstract-mermaid";
 
 export class SequenceDiagram extends AbstractMermaid implements SequenceDiagramInterface {
   constructor(opt?: SequenceDiagramConstructor) {

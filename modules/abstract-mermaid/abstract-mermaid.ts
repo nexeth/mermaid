@@ -1,5 +1,4 @@
-import { Mermaid } from "@/types";
-
+import { Mermaid } from "../../types";
 export abstract class AbstractMermaid implements Mermaid {
   abstract title?: string;
   abstract render(): string;

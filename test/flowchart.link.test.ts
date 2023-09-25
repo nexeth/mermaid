@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 import { describe, expect, test } from "bun:test";
 
-import { Flowchart } from "@/modules";
+import { Flowchart } from "../modules";
 
 describe("flowchart", () => {
   describe("link", () => {

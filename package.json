@@ -1,6 +1,9 @@
 {
   "name": "@nexeth/mermaid",
-  "module": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "browser": "dist/index.js",
+  "types": "dist/index.d.ts",
   "version": "0.1.0",
   "type": "module",
   "author": "mfbevan",
@@ -8,7 +11,10 @@
   "scripts": {
     "start": "bun index.ts",
     "test": "bun test",
-    "lint": "eslint . "
+    "lint": "eslint . ",
+    "build:browser": "bun build ./index.ts --outdir ./dist --target browser",
+    "build:minify": "bun build ./index.ts --outdir ./dist --target browser --minify",
+    "build:tsc": "tsc --outDir ./dist"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.7.0",

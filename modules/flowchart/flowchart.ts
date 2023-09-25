@@ -1,5 +1,3 @@
-import { AbstractMermaid } from "..";
-
 import {
   FlowchartComment,
   FlowchartConstructor,
@@ -13,7 +11,8 @@ import {
   FlowchartShape,
   FlowchartSubgraph,
   FlowchartType,
-} from "@/types";
+} from "../../types";
+import { AbstractMermaid } from "../abstract-mermaid";
 
 export class Flowchart extends AbstractMermaid implements FlowchartInterface {
   constructor(opt: FlowchartConstructor) {

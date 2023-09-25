@@ -1,4 +1,3 @@
-import { SequenceDiagram } from "@/modules";
-export * from "@/types";
+import { SequenceDiagram, Flowchart } from "./modules";
 
-export { SequenceDiagram };
+export { SequenceDiagram, Flowchart };

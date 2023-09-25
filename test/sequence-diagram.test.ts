@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { SequenceDiagram } from "@/modules";
+import { SequenceDiagram } from "../modules";
 
 describe("Sequence Diagram", () => {
   describe("participant", () => {
