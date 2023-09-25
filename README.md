@@ -1,6 +1,10 @@
 # @nexeth/mermaid
 
-`@nexeth/mermaid` is a tool for generating mermaid diagrams via code. This is useful for creating automated tools that generate mermaid diagram for you.
+[![npm (tag)](https://img.shields.io/npm/v/@nexeth/mermaid)](https://www.npmjs.com/package/@nexeth/mermaid)
+[![CI Tests](https://github.com/nexeth/mermaid/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/nexeth/mermaid/actions/workflows/test.yaml)
+![npm (downloads)](https://img.shields.io/npm/dm/@nexeth/mermaid)
+
+`@nexeth/mermaid` is a tool for generating mermaid diagrams programmatically via code. Currently, Sequence Diagram and Flowcharts are supported.
 
 ## ⬇️ Installation
 
