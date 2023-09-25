@@ -61,7 +61,7 @@ export class Flowchart extends AbstractMermaid implements FlowchartInterface {
     }
     const { id, text, shape } = node;
     const { pre, post } = this.nodeMap[shape ?? "round"];
-    return `${id}${pre}${text}${post}`;
+    return `${id}${pre}"${text}"${post}`;
   }
 
   renderMap: Record<FlowchartItemKey, (item: FlowchartItem) => string> = {

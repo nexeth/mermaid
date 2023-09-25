@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import { describe, expect, test } from "bun:test";
 
 import { Flowchart } from "@/modules";
@@ -156,74 +157,76 @@ describe("Flowchart", () => {
 
     test("should be able to render a round node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "round" })).toEqual("a(text)");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "round" })).toEqual(`a("text")`);
     });
 
     test("should be able to render a stadium node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "stadium" })).toEqual("a([text])");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "stadium" })).toEqual(`a(["text"])`);
     });
 
     test("should be able to render a subroutine node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "subroutine" })).toEqual("a[[text]]");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "subroutine" })).toEqual(`a[["text"]]`);
     });
 
     test("should be able to render a cylindrical node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "cylindrical" })).toEqual("a[(text)]");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "cylindrical" })).toEqual(
+        `a[("text")]`
+      );
     });
 
     test("should be able to render a circle node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "circle" })).toEqual("a((text))");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "circle" })).toEqual(`a(("text"))`);
     });
 
     test("should be able to render a asymmetric node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "asymmetric" })).toEqual("a>text]");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "asymmetric" })).toEqual(`a>"text"]`);
     });
 
     test("should be able to render a rhombus node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "rhombus" })).toEqual("a{text}");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "rhombus" })).toEqual(`a{"text"}`);
     });
 
     test("should be able to render a hexagon node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "hexagon" })).toEqual("a{{text}}");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "hexagon" })).toEqual(`a{{"text"}}`);
     });
 
     test("should be able to render a parallelogram node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
       expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "parallelogram" })).toEqual(
-        "a[/text/]"
+        `a[/"text"/]`
       );
     });
 
     test("should be able to render a parallelogram-alt node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
       expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "parallelogram-alt" })).toEqual(
-        "a[\\text\\]"
+        `a[\\"text"\\]`
       );
     });
 
     test("should be able to render a trapezoid node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "trapezoid" })).toEqual("a[/text\\]");
+      expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "trapezoid" })).toEqual(`a[/"text"\\]`);
     });
 
     test("should be able to render a trapezoid-alt node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
       expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "trapezoid-alt" })).toEqual(
-        "a[\\text/]"
+        `a[\\"text"/]`
       );
     });
 
     test("should be able to render a double-circle node", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
       expect(flowchart.renderNode({ type: "node", id: "a", text: "text", shape: "double-circle" })).toEqual(
-        "a(((text)))"
+        `a((("text")))`
       );
     });
 
@@ -246,19 +249,19 @@ describe("Flowchart", () => {
       const rendered = flowchart.render();
 
       expect(rendered).toEqual(`flowchart TD
-a(round)
-b([stadium])
-c[[subroutine]]
-d[(cylindrical)]
-e((circle))
-f>asymmetric]
-g{rhombus}
-h{{hexagon}}
-i[/parallelogram/]
-j[\\parallelogram-alt\\]
-k[/trapezoid\\]
-l[\\trapezoid-alt/]
-m(((double-circle)))`);
+a("round")
+b(["stadium"])
+c[["subroutine"]]
+d[("cylindrical")]
+e(("circle"))
+f>"asymmetric"]
+g{"rhombus"}
+h{{"hexagon"}}
+i[/"parallelogram"/]
+j[\\"parallelogram-alt"\\]
+k[/"trapezoid"\\]
+l[\\"trapezoid-alt"/]
+m((("double-circle")))`);
     });
   });
 
@@ -272,6 +275,13 @@ m(((double-circle)))`);
 a
 b
 c`);
+    });
+
+    test("should support markdown", () => {
+      const flowchart = new Flowchart({ flowchartType: "TD" });
+      flowchart.node("a", "`text is _italic_`");
+      expect(flowchart.render()).toEqual(`flowchart TD
+a("\`text is _italic_\`")`);
     });
   });
 
