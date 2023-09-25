@@ -82,8 +82,40 @@ export interface FlowchartLink {
   text?: string;
 }
 
-export type FlowchartItemKey = FlowchartNode["type"] | FlowchartLink["type"];
-export type FlowchartItem = FlowchartNode | FlowchartLink;
+export interface FlowchartSubgraph {
+  type: "subgraph";
+  id: string;
+  title?: string;
+}
+
+export interface FlowchartEnd {
+  type: "end";
+}
+
+export interface FlowchartDirection {
+  type: "direction";
+  direction: FlowchartType;
+}
+
+export interface FlowchartComment {
+  type: "comment";
+  text: string;
+}
+
+export type FlowchartItemKey =
+  | FlowchartNode["type"]
+  | FlowchartLink["type"]
+  | FlowchartSubgraph["type"]
+  | FlowchartEnd["type"]
+  | FlowchartDirection["type"]
+  | FlowchartComment["type"];
+export type FlowchartItem =
+  | FlowchartNode
+  | FlowchartLink
+  | FlowchartSubgraph
+  | FlowchartEnd
+  | FlowchartDirection
+  | FlowchartComment;
 
 /**
  * Possible FlowChart orientations are:
@@ -117,13 +149,37 @@ export interface FlowchartInterface extends Mermaid {
 
   /**
    * Add a new node to the flowchart
+   * @param id The id of the node
+   * @param text The text to display on the node
+   * @param shape The shape of the node
    */
   node(id: string, text?: string, shape?: FlowchartShape): this;
 
   /**
    * Add a new link to the flowchart
+   * @param from The id of the node to link from
+   * @param linkType The type of link to use
+   * @param to The id of the node to link to
+   * @param text The text to display on the link
    */
   link(from: string, linkType: string, to: string, text?: string): this;
+
+  /**
+   * Start a new subgraph
+   * @param id The id of the subgraph
+   * @param title The title of the subgraph
+   */
+  subgraph(id: string, title?: string): this;
+
+  /**
+   * End the currently open section
+   */
+  end(): this;
+
+  /**
+   * Set the direction of the flowchart or subgraph. This will inline the direction statement in the flowchart code.
+   */
+  direction(direction: FlowchartType): this;
 
   /**
    * Mapping of the node styling key to the node styling value

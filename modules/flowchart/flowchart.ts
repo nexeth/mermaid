@@ -2,6 +2,7 @@ import { AbstractMermaid } from "..";
 
 import {
   FlowchartConstructor,
+  FlowchartDirection,
   FlowchartInterface,
   FlowchartItem,
   FlowchartItemKey,
@@ -9,6 +10,7 @@ import {
   FlowchartLinkType,
   FlowchartNode,
   FlowchartShape,
+  FlowchartSubgraph,
   FlowchartType,
 } from "@/types";
 
@@ -76,9 +78,35 @@ export class Flowchart extends AbstractMermaid implements FlowchartInterface {
     return `${from} ${linkType}${text ? `|"${text}"|` : ""} ${to}`;
   }
 
+  subgraph(id: string, title?: string): this {
+    this.flowchart.push({ type: "subgraph", id, title });
+    return this;
+  }
+
+  renderSubgraph(_subgraph: FlowchartSubgraph): string {
+    return `subgraph ${_subgraph.id}${_subgraph.title ? ` ["${_subgraph.title}"]` : ""}`;
+  }
+
+  end(): this {
+    this.flowchart.push({ type: "end" });
+    return this;
+  }
+
+  direction(direction: FlowchartType): this {
+    this.flowchart.push({ type: "direction", direction });
+    return this;
+  }
+
+  renderDirection(direction: FlowchartDirection): string {
+    return `direction ${direction.direction}`;
+  }
+
   renderMap: Record<FlowchartItemKey, (item: FlowchartItem) => string> = {
     node: (item) => this.renderNode(item as FlowchartNode),
     link: (item) => this.renderLink(item as FlowchartLink),
+    subgraph: (item) => this.renderSubgraph(item as FlowchartSubgraph),
+    end: () => "end",
+    direction: (item) => this.renderDirection(item as FlowchartDirection),
   };
 
   render(): string {

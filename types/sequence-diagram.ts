@@ -70,17 +70,16 @@ export interface SequenceCustom {
 }
 
 export type SequenceItemKey =
-  | "participant"
-  | "actor"
-  | "message"
-  | "box"
-  | "end"
-  | "activate"
-  | "deactivate"
-  | "note"
-  | "rect"
-  | "comment"
-  | "custom"
+  | SequenceParticipant["type"]
+  | SequenceMessage["type"]
+  | SequenceBox["type"]
+  | SequenceEnd["type"]
+  | SequenceActivation["type"]
+  | SequenceNote["type"]
+  | SequenceRegionItem["type"]
+  | SequenceRect["type"]
+  | SequenceComment["type"]
+  | SequenceCustom["type"]
   | SequenceRegion;
 export type SequenceItem =
   | SequenceParticipant
