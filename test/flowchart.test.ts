@@ -322,20 +322,83 @@ m((("double-circle")))`);
 
     test("should render all link types", () => {
       const flowchart = new Flowchart({ flowchartType: "TD" });
-      flowchart.link("a", "-->", "b");
-      flowchart.link("c", "---", "d");
-      flowchart.link("e", "-.->", "f");
-      flowchart.link("g", "==>", "h");
-      flowchart.link("i", "~~~", "j");
+      flowchart
+        .link("a", "---", "b")
+        .link("c", "----", "d")
+        .link("e", "-----", "f")
+        .link("g", "------", "h")
+        .link("i", "-------", "j")
+        .link("k", "-.->", "l")
+        .link("m", "-..->", "n")
+        .link("o", "-...->", "p")
+        .link("q", "-....->", "r")
+        .link("s", "-.....->", "t")
+        .link("u", "==>", "v")
+        .link("w", "===>", "x")
+        .link("y", "====>", "z")
+        .link("aa", "=====>", "bb")
+        .link("cc", "======>", "dd")
+        .link("ee", "~~~", "ff")
+        .link("gg", "~~~~", "hh")
+        .link("ii", "~~~~~", "jj")
+        .link("kk", "~~~~~~", "ll")
+        .link("mm", "~~~~~~~", "nn")
+        .link("oo", "--o", "pp")
+        .link("qq", "---o", "rr")
+        .link("ss", "----o", "tt")
+        .link("uu", "-----o", "vv")
+        .link("ww", "------o", "xx")
+        .link("yy", "--x", "zz")
+        .link("aaa", "---x", "bbb")
+        .link("ccc", "----x", "ddd")
+        .link("eee", "-----x", "fff")
+        .link("ggg", "------x", "hhh")
+        .link("iii", "o--o", "jjj")
+        .link("kkk", "o---o", "lll")
+        .link("mmm", "o----o", "nnn")
+        .link("ooo", "o-----o", "ppp")
+        .link("qqq", "o------o", "rrr");
 
       const rendered = flowchart.render();
 
+      console.log(rendered);
+
       expect(rendered).toEqual(`flowchart TD
-a --> b
-c --- d
-e -.-> f
-g ==> h
-i ~~~ j`);
+a --- b
+c ---- d
+e ----- f
+g ------ h
+i ------- j
+k -.-> l
+m -..-> n
+o -...-> p
+q -....-> r
+s -.....-> t
+u ==> v
+w ===> x
+y ====> z
+aa =====> bb
+cc ======> dd
+ee ~~~ ff
+gg ~~~~ hh
+ii ~~~~~ jj
+kk ~~~~~~ ll
+mm ~~~~~~~ nn
+oo --o pp
+qq ---o rr
+ss ----o tt
+uu -----o vv
+ww ------o xx
+yy --x zz
+aaa ---x bbb
+ccc ----x ddd
+eee -----x fff
+ggg ------x hhh
+iii o--o jjj
+kkk o---o lll
+mmm o----o nnn
+ooo o-----o ppp
+qqq o------o rrr`);
     });
 
     test("should be able to render all link types with text", () => {
