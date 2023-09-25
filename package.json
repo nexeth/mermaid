@@ -4,7 +4,7 @@
   "module": "dist/index.js",
   "browser": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "author": "mfbevan",
   "license": "MIT",
