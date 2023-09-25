@@ -227,7 +227,7 @@ diagram
   .end()
   .box("Group B", { color: "lightgray" })
   .participant("Eve")
-  .end()
+  .end();
 
 const output = diagram.render();
 ```
@@ -470,6 +470,186 @@ console.log(renderedDiagram);
 ```
 
 This will log the generated sequence diagram text to the console.
+
+## _Flowchart Diagram_
+
+> A Flowchart diagram is a graphical representation of a process, showing the steps as boxes of various shapes and connecting them with arrows. Consult the [official documentation](https://mermaid.js.org/syntax/flowchart.html) for more information.
+
+### @nexeth/mermaid Syntax
+
+```ts
+import { Flowchart } from "@nexeth/mermaid";
+
+const chart = new Flowchart({ title: "My Flowchart", flowchartType: "TD" });
+
+chart.node("A", "Start").node("B", "Process").link("A", "-->", "B", "Yes").node("C", "End").link("B", "-->", "C");
+
+const render = chart.render();
+```
+
+### Mermaid Syntax
+
+```
+flowchart TD
+A[Start]
+B[Process]
+A-->|Yes|B
+B-->C[End]
+```
+
+### Generated Diagram
+
+```mermaid
+flowchart TD
+A[Start]
+B[Process]
+A-->|Yes|B
+B-->C[End]
+```
+
+### Setup
+
+Create a new Flowchart diagram
+
+```ts
+import { Flowchart } from "@nexeth/mermaid";
+
+const chart = new Flowchart({ title: "My Flowchart", flowchartType: "TD" });
+```
+
+### Nodes
+
+Nodes represent steps or processes in your flowchart. You can define nodes in your diagram using the node method.
+
+#### Adding Nodes
+
+To add nodes to your flowchart, use the node method. Nodes are added in the order they appear in your code. You can specify text and shape for each node.
+
+```ts
+const chart = new Flowchart();
+
+// Adding nodes
+chart.node("A", "Start").node("B", "Process", "stadium").node("C", "End", "round");
+
+const output = chart.render();
+```
+
+This will render nodes in the diagram following the order they were added, along with their specified text and shape:
+
+```mermaid
+flowchart TD
+A[Start]
+B([Process])
+C[End]
+```
+
+### Links
+
+Links represent connections between nodes in your flowchart. You can add links using the link method.
+
+#### Adding Links
+
+To add links to your flowchart, use the link method. You can specify the source node, link type, target node, and optional link text.
+
+```ts
+const chart = new Flowchart();
+
+// Adding nodes
+chart.node("A", "Start").node("B", "Process").node("C", "End").link("A", "-->", "B", "Yes").link("B", "-->", "C");
+
+const output = chart.render();
+```
+
+This will render links in the diagram with the specified link type and text:
+
+```mermaid
+flowchart TD
+A[Start]
+B[Process]
+A-->'Yes'|Yes|B
+B-->C[End]
+```
+
+### Subgraphs
+
+Subgraphs allow you to group nodes and links within a separate box in your flowchart. You can create subgraphs using the subgraph method.
+
+#### Adding Subgraphs
+
+To add a subgraph to your flowchart, use the subgraph method. You can specify the subgraph's ID and an optional title.
+
+```ts
+const chart = new Flowchart();
+
+// Adding subgraph
+chart.subgraph("Group A", "Group Title").node("A", "Start").node("B", "Process").end().node("C", "End");
+
+const output = chart.render();
+```
+
+This will render subgraphs in the diagram, visually grouping nodes and links:
+
+```mermaid
+flowchart TD
+subgraph Group A[Group Title]
+A[Start]
+B[Process]
+end
+C[End]
+Direction
+```
+
+You can specify the direction of your subgraph using the direction method.
+
+```ts
+const chart = new Flowchart();
+
+// Adding subgraph
+chart.subgraph("Group A", "Group Title").direction("LR").node("A", "Start").node("B", "Process").end().node("C", "End");
+
+const output = chart.render();
+```
+
+### Comments
+
+Comments in a flowchart provide additional information or annotations. You can add comments using the comment method.
+
+#### Adding Comments
+
+To add comments to your flowchart, use the comment method and specify the comment text.
+
+```ts
+const chart = new Flowchart();
+
+chart.node("A", "Start").node("B", "Process").comment("This is a comment").node("C", "End");
+
+const output = chart.render();
+```
+
+This will render comments in the diagram:
+
+```mermaid
+flowchart TD
+A[Start]
+B[Process]
+%% This is a comment
+C[End]
+```
+
+### Rendering
+
+To obtain the final rendered flowchart, call the render method on your chart instance. This will return the correctly formatted flowchart as a string.
+
+```ts
+const chart = new Flowchart();
+
+// Add elements to the flowchart...
+
+const renderedChart = chart.render();
+console.log(renderedChart);
+```
+
+This will log the generated flowchart text to the console.
 
 ## Additional Resources
 
